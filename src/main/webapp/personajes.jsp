@@ -54,7 +54,7 @@
     <a href="${pageContext.request.contextPath}/personajes">Limpiar filtros</a>
 </form>
 
-<p class="resumen"><strong>XXXXXXX</strong> personajes encontrados</p>
+<p class="resumen"><strong>${personajes.size()}</strong> personajes encontrados</p>
 
 <table>
     <thead>
