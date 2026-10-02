@@ -2,12 +2,23 @@ package es.daw.jakartasimpson.util;
 
 public class Utils {
 
-    public static int leerEntero(String nombreCampo, String valor){
-        if (valor == null || valor.isBlank()){
-            return 0;
+    public static Integer leerEntero(String nombreCampo, String valor) throws Exception {
+        if (valor == null || valor.isBlank()) { //FIXME Si el cuadro del html no tiene ningun valor, da error.
+            // return null;
+            throw new Exception("El campo " + nombreCampo + " no puede ser nulo o ni estar vacío");
         }
 
-        // PENDIENTE!!!
-        int numero = Integer.parseInt(valor.strip());
+        Integer num;
+        try {
+            num = Integer.valueOf(valor);
+
+        } catch (NumberFormatException e) {
+            throw new Exception("El campo " + nombreCampo + " debe ser un número entero");
+        }
+
+        if (num < 0)
+            throw new Exception("El campo " + nombreCampo + " debe ser positivo");
+
+        return num;
     }
 }

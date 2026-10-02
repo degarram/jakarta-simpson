@@ -7,14 +7,14 @@ import java.util.Comparator;
 /**
  * RECORDATORIO DE 1º: cómo se ordenaba "a la antigua".
  * Una clase aparte que implementa Comparator y define compare().
- *
+ * <p>
  * (No confundir con Comparable, que es la interfaz que implementa la PROPIA clase
- *  y define compareTo(): el "orden natural", como el de String o Integer.)
- *
+ * y define compareTo(): el "orden natural", como el de String o Integer.)
+ * <p>
  * Esta clase NO la usa la aplicación: está aquí solo para comparar con
- *
- *     Comparator.comparingInt(Personaje::edad).thenComparing(Personaje::nombre)
- *
+ * <p>
+ * Comparator.comparingInt(Personaje::edad).thenComparing(Personaje::nombre)
+ * <p>
  * que hace exactamente lo mismo en una línea.
  */
 public class ComparadorPorEdad implements Comparator<Personaje> {

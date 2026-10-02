@@ -41,7 +41,7 @@
         </label>
 
         <label class="check">
-            <input type="checkbox" name="descendente" >
+            <input type="checkbox" name="descendente">
             Descendente
         </label>
 
@@ -55,6 +55,11 @@
 </form>
 
 <p class="resumen"><strong>${personajes.size()}</strong> personajes encontrados</p>
+
+<!-- si hay error se pinta -->
+<c:if test="${not empty error}">
+    <p class="error">${error}</p>
+</c:if>
 <c:if test="${not empty personajes}">
     <table>
         <thead>
@@ -68,12 +73,12 @@
         <tbody>
 
         <c:forEach var="personaje" items="${personajes}">
-        <tr>
-            <td>${personaje.nombreCompleto()}</td>
-            <td>${personaje.edad()}</td>
-            <td>${personaje.ocupacion()}</td>
-            <td>${personaje.lugar()}</td>
-        </tr>
+            <tr>
+                <td>${personaje.nombreCompleto()}</td>
+                <td>${personaje.edad()}</td>
+                <td>${personaje.ocupacion()}</td>
+                <td>${personaje.lugar()}</td>
+            </tr>
         </c:forEach>
 
         </tbody>
