@@ -16,14 +16,14 @@ public class PersonajeService {
                                   Integer limite) {
         return personajeRepository.findAll().stream()
                 .filter(personaje -> lugar == null || lugar.isBlank() || personaje.lugar().equalsIgnoreCase(lugar))
-                .filter(personaje -> personaje.edad() <= edadMax)
-                .limit(limite)
+                .filter(personaje -> edadMax == null || personaje.edad() <= edadMax)
+                .limit(limite == null ? Integer.MAX_VALUE : limite)
                 .toList();
     }
 
     public List<String> lugaresDisponibles() {
         return personajeRepository.findAll().stream()
-                .map(personaje -> personaje.lugar())
+                .map(Personaje::lugar)
                 .distinct()
                 .sorted()
                 .toList();
