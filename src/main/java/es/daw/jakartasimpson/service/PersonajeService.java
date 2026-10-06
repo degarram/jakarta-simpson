@@ -3,6 +3,7 @@ package es.daw.jakartasimpson.service;
 import es.daw.jakartasimpson.model.Personaje;
 import es.daw.jakartasimpson.repository.PersonajeRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class PersonajeService {
@@ -17,6 +18,7 @@ public class PersonajeService {
         return personajeRepository.findAll().stream()
                 .filter(personaje -> lugar == null || lugar.isBlank() || personaje.lugar().equalsIgnoreCase(lugar))
                 .filter(personaje -> edadMax == null || personaje.edad() <= edadMax)
+                .sorted(crearComparator(ordenarPor, descendente))
                 .limit(limite == null ? Integer.MAX_VALUE : limite)
                 .toList();
     }
@@ -27,5 +29,15 @@ public class PersonajeService {
                 .distinct()
                 .sorted()
                 .toList();
+    }
+
+    private Comparator<Personaje> crearComparator(String ordenarPor, Boolean descendente) {
+        Comparator<Personaje> comparador = switch (ordenarPor == null ? "" : ordenarPor) {
+            case "edad" -> Comparator.comparingInt(Personaje::edad).thenComparing(Personaje::nombreCompleto);
+            case "apellido" -> Comparator.comparing(Personaje::apellido).thenComparing(Personaje::nombreCompleto);
+            default -> Comparator.comparing(Personaje::nombreCompleto).thenComparing(Personaje::apellido);
+        };
+
+        return descendente ? comparador.reversed() :comparador;
     }
 }
