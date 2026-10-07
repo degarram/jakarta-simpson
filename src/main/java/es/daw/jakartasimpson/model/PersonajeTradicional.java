@@ -1,9 +1,10 @@
 package es.daw.jakartasimpson.model;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonajeTradicional implements Comparable<PersonajeTradicional> {
+public class PersonajeTradicional implements Comparable<PersonajeTradicional>{
+
+    // 1. atributos
     private String nombre;
     private String apellido;
     private int edad;
@@ -11,7 +12,9 @@ public class PersonajeTradicional implements Comparable<PersonajeTradicional> {
     private String lugar;
     private boolean principal;
 
+    // 2. constructores
 
+    // si no creo constructor, tengo el constructor vacío por defecto...
     public PersonajeTradicional(String nombre, String apellido, int edad, String ocupacion, String lugar, boolean principal) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -21,8 +24,10 @@ public class PersonajeTradicional implements Comparable<PersonajeTradicional> {
         this.principal = principal;
     }
 
-    public PersonajeTradicional() {
-    }
+    public PersonajeTradicional() {}
+
+    //---------------------
+    //3. getters & setters
 
     public String getNombre() {
         return nombre;
@@ -72,13 +77,33 @@ public class PersonajeTradicional implements Comparable<PersonajeTradicional> {
         this.principal = principal;
     }
 
-    public String nombreCompleto() {
-        return apellido.isBlank() ? nombre : nombre + " " + apellido;
+    // --------------------------
+    // 4. Métodos de comportamiento
+    public String nombreCompleto(){
+        return apellido.isBlank()? nombre: nombre + " " + apellido;
     }
 
-    public boolean esMenor() {
+    public boolean esMenor(){
         return edad < 18;
     }
+
+    //---------------------------------
+    // 5. Sobreescritura de métodos de la clase padre o implementación de métodos de interfaces
+    @Override
+    public int compareTo(PersonajeTradicional o) {
+        // -1 o negativo (asc)
+        // 1 o positivo (desc)
+        // 0 son iguales
+        return this.nombreCompleto().compareTo(o.nombreCompleto());
+
+        //return this.getNombre().compareTo(o.getNombre());
+
+    }
+
+    // --------------------
+
+    // 6. Sobrescritura de métodos de Object
+
 
     @Override
     public String toString() {
@@ -89,7 +114,7 @@ public class PersonajeTradicional implements Comparable<PersonajeTradicional> {
                 ", ocupacion='" + ocupacion + '\'' +
                 ", lugar='" + lugar + '\'' +
                 ", principal=" + principal +
-                '}';
+                "}\n";
     }
 
     @Override
@@ -103,10 +128,4 @@ public class PersonajeTradicional implements Comparable<PersonajeTradicional> {
     public int hashCode() {
         return Objects.hash(nombre, apellido, edad, ocupacion, lugar, principal);
     }
-
-    @Override
-    public int compareTo(PersonajeTradicional o) {
-        return this.nombreCompleto().compareTo(o.nombreCompleto());
-    }
 }
-
