@@ -26,7 +26,7 @@ public class PersonajeServlet extends HttpServlet {
 //    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+    //TODO - Hacer el último extra de solo familia simpson
         // --------------------------------------------------
         // 1. LEER LOS PARÁMETROS DEL REQUEST
         String lugar = request.getParameter("lugar");
@@ -37,6 +37,9 @@ public class PersonajeServlet extends HttpServlet {
         //int edadMax = Integer.parseInt(request.getParameter("edadMax"));
         String edadMax = request.getParameter("edadMax"); // cuidadín!!! llega como un String pero la edad la trato como un int
         System.out.println("**** edadMax: " + edadMax);
+
+        String ocupacion = request.getParameter("ocupacion");
+        System.out.println("**** ocupacion: " + ocupacion);
 
         //boolean descendente = Boolean.parseBoolean(request.getParameter("descendente"));
         boolean descendente = request.getParameter("descendente") != null; // si no está marcado no se envía!!!
@@ -56,7 +59,7 @@ public class PersonajeServlet extends HttpServlet {
 
             // --------------------------------------------------
             // 3. LÓGICA DE NEGOCIO QUE HARÁ UN SERVICIO. OBTENER LA LISTA DE LOS PERSONAJES (con o sin filtro, con o sin ordenación...)
-            personajes = personajeService.buscar(lugar, edadMaxInt, ordenarPor, descendente, limiteInt);
+            personajes = personajeService.buscar(lugar, edadMaxInt, ocupacion, ordenarPor, descendente, limiteInt);
 
         }catch (Exception e){
 
@@ -77,6 +80,7 @@ public class PersonajeServlet extends HttpServlet {
         // 4. ENVIAR A LA VISTA LA INFORMACIÓN PERTINENTE (MODELO)
         request.setAttribute("personajes", personajes);
         request.setAttribute("lugares", personajeService.lugaresDisponibles());
+        request.setAttribute("ocupaciones",  personajeService.ocupacionesDisponibles());
 
         // 5. REENVIAR A LA VISTA (JSP)
         request.getRequestDispatcher("/personajes.jsp").forward(request,response);

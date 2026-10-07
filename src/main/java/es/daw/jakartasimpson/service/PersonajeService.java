@@ -13,6 +13,7 @@ public class PersonajeService {
 
     public List<Personaje> buscar(String lugar,
                                   Integer edadMax,
+                                  String ocupacion,
                                   String ordenarPor, // pendiente
                                   boolean descendente, // pendiente
                                   Integer limite) {
@@ -45,8 +46,9 @@ public class PersonajeService {
                 // Si el usuario no eligió luar, la condición es true para todos
                 .filter( p -> lugar == null || lugar.isBlank() || p.lugar().equalsIgnoreCase(lugar))
                 .filter(p -> edadMax == null || p.edad() <= edadMax)
+                .filter(p -> ocupacion == null || ocupacion.isBlank() || p.ocupacion().equalsIgnoreCase(ocupacion))
                 //.sorted((p1, p2) -> p1.nombre().compareTo(p2.nombre())) // estamos ordenando solo por nombre ascendente
-                .sorted(crearComparator(ordenarPor,descendente))
+                .sorted(crearComparator(ordenarPor, descendente))
                 .limit(limite == null? Integer.MAX_VALUE : limite)
                 .toList();
 
@@ -73,12 +75,33 @@ public class PersonajeService {
     }
 
 
+    public List<String> ocupacionesDisponibles() {
+        return personajeRepository.findAll().stream()
+                //.map(p -> p.lugar())
+                .map(Personaje::ocupacion)
+                .distinct()
+                .sorted()
+                .toList();
+
+//        List<String> lugares = new ArrayList<>();
+//        List<Personaje> personajes = personajeRepository.findAll();
+//
+//        for (Personaje p : personajes) {
+//            if (!lugares.contains(p.lugar())) {
+//                lugares.add(p.lugar());
+//            }
+//        }
+//
+//        return lugares;
+    }
+
     private Comparator<Personaje> crearComparator(String ordenarPor,boolean descendente) {
 
         Comparator<Personaje> comparador = switch( ordenarPor == null? "" :ordenarPor){
 
             case "edad" -> Comparator.comparingInt( Personaje::edad).thenComparing( Personaje::nombre );
             case "apellido" -> Comparator.comparing(Personaje::apellido).thenComparing( Personaje::nombre );
+            case "lugar" -> Comparator.comparing(Personaje::lugar).thenComparing( Personaje::nombre );
             default -> Comparator.comparing(Personaje::nombre);
 
         };
